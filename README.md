@@ -4,7 +4,7 @@ Our application allows useres to create an oline version of any document such as
 
 ## Getting Started
 
-The component app is in the client folder and it has two major components, CreateForm and ListAdder. 
+The component app is in the client folder and it has two major components, CreateForm and its ListAdder. 
 
 ## Installation
 
@@ -15,7 +15,7 @@ npm install @material-ui/core
 
 ## Usage
 
-The ```updateDatabase``` function is called whenever the question page is navigating. Use this block to send api request back to the server as needed to run server logic.
+Use the CreateForm component as the main component. Make sure ListAdder in the same directory since CreateForm is dependent on that componenet. The ```updateDatabase``` function in CreateForm component is called whenever the question page is navigating. Use this block to send api request back to the server as needed to run server logic.
 
 ## Built With
 
