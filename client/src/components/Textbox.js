@@ -1,6 +1,6 @@
 import {React, Component} from 'react';
 
-class textbox extends Component{
+class Textbox extends Component{
     render(){
         return(
             <div>
@@ -9,4 +9,4 @@ class textbox extends Component{
         );
     }
 }
-export default textbox;
+export default Textbox;

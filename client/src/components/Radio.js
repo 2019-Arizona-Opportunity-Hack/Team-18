@@ -1,6 +1,6 @@
 import {React, Component} from 'react';
 
-class radio extends Component{
+class Radio extends Component{
     render(){
         return(
             <div>
@@ -9,4 +9,4 @@ class radio extends Component{
         );
     }
 }
-export default radio;
+export default Radio;

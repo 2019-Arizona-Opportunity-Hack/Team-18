@@ -1,6 +1,6 @@
 import {React, Component} from 'react';
 
-class radioWithTextbox extends Component{
+class RadioWithTextbox extends Component{
     render(){
         return(
             <div>
@@ -9,4 +9,4 @@ class radioWithTextbox extends Component{
         );
     }
 }
-export default radioWithTextbox;
+export default RadioWithTextbox;

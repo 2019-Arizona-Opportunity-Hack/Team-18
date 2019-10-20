@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import createForm from './components/CreateForm';
+import CreateForm from './components/CreateForm';
 
 
 function App() {
   return (
     <div>
-      <createForm></createForm>
+      <CreateForm></CreateForm>
     </div>
   );
 }

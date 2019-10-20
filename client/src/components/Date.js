@@ -1,6 +1,6 @@
 import {React, Component} from 'react';
 
-class date extends Component{
+class Date extends Component{
     render(){
         return(
             <div>
@@ -9,4 +9,4 @@ class date extends Component{
         );
     }
 }
-export default date;
+export default Date;
