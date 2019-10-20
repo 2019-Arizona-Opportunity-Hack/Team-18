@@ -1,7 +1,5 @@
 // JavaScript source code
-import React, { Component } from 'react';
 
-class Radio extends Component {
 var SearchResult = React.createClass({
     getInitialState: function () {
         return {
@@ -55,6 +53,5 @@ var App = React.createClass({
         ]} /></div>
     }
 });
-}
+
 React.render(<App />, document.body);
-export default Radio; 
