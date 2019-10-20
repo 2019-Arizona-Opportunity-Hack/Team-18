@@ -1,4 +1,4 @@
-import {React, Component} from 'react';
+import React, {Component} from 'react';
 
 class Textbox extends Component{
     render(){

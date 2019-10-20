@@ -1,7 +1,8 @@
-import {React, Component} from 'react';
+import React, {Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
+import Grid from '@material-ui/core/Grid';
 import { InputLabel } from '@material-ui/core';
 
 import styles from '../styles/CreateForm';
@@ -18,20 +19,22 @@ class CreateForm extends Component{
 
     render(){
         return(
-            <div className = {classes.root}>
+            <div className = {this.props.classes.root}>
                 <Grid 
                     container 
                     spacing = {3}
                     alignItems = "center"
                     justify = "center"
                 >
-                    <FormControl>
-                        <InputLabel 
-                            htmlFor = "formName"
-                        >
-                            
-                        </InputLabel>
-                    </FormControl>
+                    <Grid item xs={12}>
+                        <FormControl>
+                            <InputLabel 
+                                htmlFor = "formName"
+                            >
+                                hello world
+                            </InputLabel>
+                        </FormControl>
+                    </Grid>
                 </Grid>
             </div>
         );
