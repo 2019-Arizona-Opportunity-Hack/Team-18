@@ -23,7 +23,7 @@ class ListAdder extends Component {
                                 label = "Option Value"
                                 fullWidth   
                                 onChange = {(e)=>this.props.changeOption(index, e)}
-                                value = {option}
+                                value = {option === "Default"? "": option}
                                 style = {{}}
                             >
 

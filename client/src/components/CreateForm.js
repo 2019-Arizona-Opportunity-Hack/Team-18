@@ -21,6 +21,9 @@ class CreateForm extends Component{
         questions: [], 
         questionsIndex: -1
     };
+    updateDatabase = (currentState)=>{
+        console.log(currentState);
+    }
     onOptionChange = (index, event) => {
         let question = JSON.parse(this.state.questions[this.state.questionsIndex]);
         let options = question.questionOptions.split(',');
@@ -104,7 +107,7 @@ class CreateForm extends Component{
                 questions: [JSON.stringify(question)],
                 questionsIndex: this.state.questionsIndex + 1
             });
-            console.log({
+            this.updateDatabase({
                 ...this.states,
                 questions: [JSON.stringify(question)],
                 questionsIndex: this.state.questionsIndex + 1
@@ -113,7 +116,7 @@ class CreateForm extends Component{
             this.setState({
                 questionsIndex: this.state.questionsIndex + 1
             });
-            console.log({
+            this.updateDatabase({
                 ...this.states,
                 questionsIndex: this.state.questionsIndex + 1
             })
@@ -141,7 +144,7 @@ class CreateForm extends Component{
                     questions: [JSON.stringify(question)],
                     questionsIndex: this.state.questionsIndex + 1
                 });
-                console.log({
+                this.updateDatabase({
                     ...this.states,
                     questions: [JSON.stringify(question)],
                     questionsIndex: this.state.questionsIndex + 1
@@ -171,14 +174,14 @@ class CreateForm extends Component{
                         questions: [...this.state.questions, JSON.stringify(question)],
                         questionsIndex: this.state.questionsIndex + 1
                     });
-                    console.log({
+                    this.updateDatabase({
                         ...this.state,
                         questions: [...this.state.questions, JSON.stringify(question)],
                         questionsIndex: this.state.questionsIndex + 1
                     });
                 }
             }else{
-                console.log({
+                this.updateDatabase({
                     ...this.state,
                     questionsIndex: this.state.questionsIndex + 1
                 });
