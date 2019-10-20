@@ -21,8 +21,10 @@ class CreateForm extends Component{
         questions: [], 
         questionsIndex: -1
     };
-    updateDatabase = (currentState)=>{
-        console.log(currentState);
+    updateDatabase = (newState)=>{
+        console.log(newState);
+        this.setState(newState);
+        
     }
     onOptionChange = (index, event) => {
         let question = JSON.parse(this.state.questions[this.state.questionsIndex]);
@@ -103,21 +105,16 @@ class CreateForm extends Component{
                 questionOptions: ""
             };
             
-            this.setState({
-                questions: [JSON.stringify(question)],
-                questionsIndex: this.state.questionsIndex + 1
-            });
+            
             this.updateDatabase({
-                ...this.states,
+                ...this.state,
                 questions: [JSON.stringify(question)],
                 questionsIndex: this.state.questionsIndex + 1
             })
         }else{
-            this.setState({
-                questionsIndex: this.state.questionsIndex + 1
-            });
+           
             this.updateDatabase({
-                ...this.states,
+                ...this.state,
                 questionsIndex: this.state.questionsIndex + 1
             })
         }
@@ -140,12 +137,8 @@ class CreateForm extends Component{
                     questionOptions: ""
                 };
                 
-                this.setState({
-                    questions: [JSON.stringify(question)],
-                    questionsIndex: this.state.questionsIndex + 1
-                });
                 this.updateDatabase({
-                    ...this.states,
+                    ...this.state,
                     questions: [JSON.stringify(question)],
                     questionsIndex: this.state.questionsIndex + 1
                 })
@@ -170,10 +163,7 @@ class CreateForm extends Component{
                         questionType: "",
                         questionOptions: ""
                     };
-                    this.setState({
-                        questions: [...this.state.questions, JSON.stringify(question)],
-                        questionsIndex: this.state.questionsIndex + 1
-                    });
+                  
                     this.updateDatabase({
                         ...this.state,
                         questions: [...this.state.questions, JSON.stringify(question)],
@@ -183,9 +173,6 @@ class CreateForm extends Component{
             }else{
                 this.updateDatabase({
                     ...this.state,
-                    questionsIndex: this.state.questionsIndex + 1
-                });
-                this.setState({
                     questionsIndex: this.state.questionsIndex + 1
                 });
             }
