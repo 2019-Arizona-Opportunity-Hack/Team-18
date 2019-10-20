@@ -12,17 +12,57 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import styles from '../styles/CreateForm';
 
+import ListAdder from './ListAdder';
+
 class CreateForm extends Component{
     state = {
         formName: "",
         language: "",
         questions: [], 
-        questionsIndex: -1,
-        questionNumber: "",
-        questionType: ""
+        questionsIndex: -1
     };
-    addHandler = (name, e) => {
+    onOptionChange = (index, event) => {
+        let question = JSON.parse(this.state.questions[this.state.questionsIndex]);
+        let options = question.questionOptions.split(',');
+        options[index] = event.target.value;
+        question.questionOptions = options.join();
+        let questions = [...this.state.questions];
+        questions[this.state.questionsIndex] = JSON.stringify(question);
+        this.setState({
+            questions
+        });
+        
+    }
+    onAddElementToList = () => {
+        let question = JSON.parse(this.state.questions[this.state.questionsIndex]);
+        if(question.questionOptions === ""){
+            question.questionOptions = "Default";
+        }else{
+            question.questionOptions += ",Default";
+        }
+        let questions = [...this.state.questions];
+        questions[this.state.questionsIndex] = JSON.stringify(question);
+        this.setState({
+            questions
+        });
+    }
+    removeElementFromOptions = (index) => {
+        let question = JSON.parse(this.state.questions[this.state.questionsIndex]);
+        let questionOptions = question.questionOptions.split(',');
+        if(
+            (this.state.questionType !== 'multiple choice: radio with text box option' &&
+            this.state.questionType !== "multiple choice: checkbox with text box option") ||
+            index !== 0
+        ){
+            questionOptions.splice(index, 1);
+            question.questionOptions = questionOptions.join(',');
 
+            let questions = [...this.state.questions];
+            questions[this.state.questionsIndex] = JSON.stringify(question);
+            this.setState({
+                questions
+            });
+        }
     }
     onChangeFieldHandler = (name, event)=>{
         this.setState({
@@ -35,6 +75,15 @@ class CreateForm extends Component{
             ...question,
             [name]: event.target.value
         };
+        if(name === "questionType"){
+            
+            let value = event.target.value;
+            if(value === "multiple choice: radio with text box option" || value === "multiple choice: checkbox with text box option"){
+                question.questionOptions = "Other";
+            }else{
+                question.questionOptions = "";
+            }
+        }
 
         let questions = [...this.state.questions];
         questions[this.state.questionsIndex] = JSON.stringify(question);
@@ -42,25 +91,32 @@ class CreateForm extends Component{
             questions
         });
     }
-    componentWillUpdate(){
-
-    }
     onCreateFormHandler = ()=>{
         if(this.state.questionsIndex + 1 === this.state.questions.length){
             let question = {
                 questionNumber: "",
                 questionText: "",
-                questionType: ""
+                questionType: "",
+                questionOptions: ""
             };
             
             this.setState({
                 questions: [JSON.stringify(question)],
                 questionsIndex: this.state.questionsIndex + 1
             });
+            console.log({
+                ...this.states,
+                questions: [JSON.stringify(question)],
+                questionsIndex: this.state.questionsIndex + 1
+            })
         }else{
             this.setState({
                 questionsIndex: this.state.questionsIndex + 1
             });
+            console.log({
+                ...this.states,
+                questionsIndex: this.state.questionsIndex + 1
+            })
         }
     }
     onBackButtonHandler = ()=>{
@@ -77,28 +133,55 @@ class CreateForm extends Component{
                 let question = {
                     questionNumber: "",
                     questionText: "",
-                    questionType: ""
+                    questionType: "",
+                    questionOptions: ""
                 };
                 
                 this.setState({
                     questions: [JSON.stringify(question)],
                     questionsIndex: this.state.questionsIndex + 1
                 });
+                console.log({
+                    ...this.states,
+                    questions: [JSON.stringify(question)],
+                    questionsIndex: this.state.questionsIndex + 1
+                })
             }else if(this.state.questionsIndex + 1 === this.state.questions.length){
                 let question = JSON.parse(this.state.questions[this.state.questionsIndex]);
                 let valid = question.questionNumber !== "" && question.questionText !== "" && question.questionType !== "";
+                
+                if(question.questionType === "multiple choice: radio with text box option" || question.questionType=== "multiple choice: checkbox with text box option"){
+                    if (question.questionOptions === "Other"){
+                        valid = false;
+                    }
+                }else if(question.questionType === "multiple choice: checkbox" || question.questionType === "multiple choice: radio" ){
+                    if (question.questionOptions === ""){
+                        valid = false;
+                    }
+                }
+
                 if(valid){
                     let question = {
                         questionNumber: "",
                         questionText: "",
-                        questionType: ""
+                        questionType: "",
+                        questionOptions: ""
                     };
                     this.setState({
                         questions: [...this.state.questions, JSON.stringify(question)],
                         questionsIndex: this.state.questionsIndex + 1
                     });
+                    console.log({
+                        ...this.state,
+                        questions: [...this.state.questions, JSON.stringify(question)],
+                        questionsIndex: this.state.questionsIndex + 1
+                    });
                 }
             }else{
+                console.log({
+                    ...this.state,
+                    questionsIndex: this.state.questionsIndex + 1
+                });
                 this.setState({
                     questionsIndex: this.state.questionsIndex + 1
                 });
@@ -110,6 +193,16 @@ class CreateForm extends Component{
         if(this.state.questionsIndex !== -1){
             let question = JSON.parse(this.state.questions[this.state.questionsIndex]);
             valid = question.questionNumber !== "" && question.questionText !== "" && question.questionType !== "";
+        
+            if(question.questionType === "multiple choice: radio with text box option" || question.questionType=== "multiple choice: checkbox with text box option"){
+                if (question.questionOptions === "Other"){
+                    valid = false;
+                }
+            }else if(question.questionType === "multiple choice: checkbox" || question.questionType === "multiple choice: radio" ){
+                if (question.questionOptions === ""){
+                    valid = false;
+                }
+            }
         }
        
         return !valid;
@@ -210,7 +303,7 @@ class CreateForm extends Component{
                     >
                     </TextField>
                     <FormControl fullWidth variant = "outlined">
-                        <InputLabel>Question Type</InputLabel>
+                        <InputLabel style = {{backgroundColor: 'white'}}>Question Type</InputLabel>
                         <Select
                             value = {JSON.parse(this.state.questions[this.state.questionsIndex]).questionType}
                             onChange = {(e)=>this.onChangeQuestionHandler('questionType', e)}
@@ -250,10 +343,25 @@ class CreateForm extends Component{
                     </FormControl>
                 </form>
             </Grid>
+            {JSON.parse(this.state.questions[this.state.questionsIndex]).questionType === "multiple choice: radio" ||
+            JSON.parse(this.state.questions[this.state.questionsIndex]).questionType === "multiple choice: radio with text box option" ||
+            JSON.parse(this.state.questions[this.state.questionsIndex]).questionType === "multiple choice: checkbox with text box option" ||
+            JSON.parse(this.state.questions[this.state.questionsIndex]).questionType === "multiple choice: checkbox"? 
+                <ListAdder
+                    options = {JSON.parse(this.state.questions[this.state.questionsIndex]).questionOptions === ""? []:
+                                JSON.parse(this.state.questions[this.state.questionsIndex]).questionOptions.split(",")
+                                }
+                    removeElement = {this.removeElementFromOptions}
+                    addElement = {this.onAddElementToList}
+                    hasOther = {JSON.parse(this.state.questions[this.state.questionsIndex]).questionType === "multiple choice: radio with text box option" ||
+                                JSON.parse(this.state.questions[this.state.questionsIndex]).questionType === "multiple choice: checkbox with text box option"
+                                }
+                    changeOption = {this.onOptionChange}
+                ></ListAdder> :""
+            }
         </Fragment>
     );
     render(){
-        
         const classes = this.props.classes;
         const page = this.state.questionsIndex === -1 ? this.firstPage(classes) : this.questionPage();
         return(
